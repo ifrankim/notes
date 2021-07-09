@@ -25,11 +25,16 @@ class _HomePageState extends State<HomePage> {
                 child: ListTile(
                   title: Text(notes[i]),
                   onTap: () async {
-                    final item = await Navigator.pushNamed(
+                    final response = await Navigator.pushNamed(
                         context, "/create-note",
                         arguments: notes[i]);
-                    if (item != null) {
-                      notes[i] = item as String;
+                    if (response != null) {
+                      var item = response as String;
+                      if (item.isEmpty) {
+                        notes.removeAt(i);
+                      } else {
+                        notes[i] = item;
+                      }
                       setState(() {});
                     }
                   },
