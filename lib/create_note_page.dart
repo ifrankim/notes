@@ -9,6 +9,18 @@ class CreateNotePage extends StatefulWidget {
 
 class _CreateNotePageState extends State<CreateNotePage> {
   var enteredText = '';
+  var textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (ModalRoute.of(context)!.settings.arguments != null) {
+        enteredText = ModalRoute.of(context)!.settings.arguments as String;
+        textController.text = enteredText;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +36,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextField(
+              controller: textController,
               maxLines: null,
               onChanged: (newText) {
                 setState(() {
