@@ -63,15 +63,27 @@ class AddButton extends StatefulWidget {
 class _AddButtonState extends State<AddButton> {
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: () async {
-        final item = await Navigator.pushNamed(context, "/create-note");
-        if (item != null) {
-          widget.notes.add(item as String);
-          setState(() {});
-        }
-      },
+    return Container(
+      height: 48,
+      width: 48,
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(24))),
+      child: TextButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.blue),
+        ),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () async {
+          final item = await Navigator.pushNamed(context, "/create-note");
+          if (item != null) {
+            widget.notes.add(item as String);
+            setState(() {});
+          }
+        },
+      ),
     );
   }
 }
