@@ -57,7 +57,8 @@ class _CreateNotePageState extends State<CreateNotePage> {
             SizedBox(
               height: 32,
             ),
-            Expanded(
+            SizedBox(
+              width: 300,
               child: ElevatedButton(
                   onPressed: (enteredText == '')
                       ? null
