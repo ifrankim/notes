@@ -44,46 +44,39 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: AddButton(
-        notes: notes,
-      ),
-    );
-  }
-}
-
-class AddButton extends StatefulWidget {
-  const AddButton({
-    Key? key,
-    required this.notes,
-  }) : super(key: key);
-  final List notes;
-  @override
-  _AddButtonState createState() => _AddButtonState();
-}
-
-class _AddButtonState extends State<AddButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 48,
-      width: 48,
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(24))),
-      child: TextButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.blue),
-        ),
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: () async {
+        onTap: () async {
           final item = await Navigator.pushNamed(context, "/create-note");
           if (item != null) {
-            widget.notes.add(item as String);
+            notes.add(item as String);
             setState(() {});
           }
         },
       ),
     );
+  }
+}
+
+class AddButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const AddButton({Key? key, required this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 48,
+        width: 48,
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(24))),
+        child: TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.blue),
+          ),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          onPressed: onTap,
+        ));
   }
 }
