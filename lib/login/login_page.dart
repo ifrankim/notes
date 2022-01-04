@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:notes/login/login_controller.dart';
+import 'package:notes/login/login_service.dart';
+import 'package:notes/login/login_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -8,6 +11,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  late LoginController loginController;
+
+  @override
+  void initState() {
+    loginController = LoginController(
+        onUpdate: () {
+          if (loginController.state is LoginStateSuccess) {
+            final user = (loginController.state as LoginStateSuccess).user;
+            Navigator.pushReplacementNamed(context, "/home", arguments: user);
+          } else {
+            setState(() {});
+          }
+        },
+        loginService: LoginServiceImplementation());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: GestureDetector(
-              onTap: () {
-                print("login");
+              onTap: () async {
+                await loginController.googleSignIn();
               },
               child: Container(
                   // color: Colors.lightBlue,
